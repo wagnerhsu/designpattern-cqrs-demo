@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using LaYumba.Functional;
-using static LaYumba.Functional.F;
-using Unit = System.ValueTuple;
+﻿using AutoMapper;
 using Logic.AppServices;
 using Logic.Dtos;
-using Logic.Models;
-using Logic.Repositories;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
-using static Logic.AppServices.EditCustomerInfoCommand;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -67,8 +59,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerDto value)
         {
-
-
             var command = new CreateCustomerCommand(value.FirstName,
                value.LastName,
                value.Age);
@@ -104,7 +94,6 @@ namespace API.Controllers
                     var addressDto = mapper.Map<AddressDto>(address);
                     return Ok(addressDto);
                 });
-
         }
 
         // Put: api/Customers/5/Addresses/1/MarkPrimay
@@ -121,8 +110,6 @@ namespace API.Controllers
                 );
         }
 
-
-
         // PUT: api/Customers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> EditCustomerInfo(long id, [FromBody] EditCustomerDto value)
@@ -132,9 +119,7 @@ namespace API.Controllers
                 value.LastName,
                 value.Age);
 
-
             var result = await messages.Dispatch(command);
-
 
             return result.Match<IActionResult>(
                 (errors) => BadRequest(errors),
@@ -169,8 +154,5 @@ namespace API.Controllers
                 (valid) => NoContent()
                 );
         }
-
-
-
     }
 }

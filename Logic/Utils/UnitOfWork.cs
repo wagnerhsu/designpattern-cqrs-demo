@@ -1,10 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Logic.Data;
+﻿using Logic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace Logic.Utils
 {
@@ -13,6 +12,7 @@ namespace Logic.Utils
         private readonly DbContext _dbContext;
         private readonly IDbContextTransaction _transaction;
         private bool _isAlive = true;
+
         public UnitOfWork(DbContextFactory dbContextFactory)
         {
             _dbContext = dbContextFactory.GetApplicationContext();
@@ -37,9 +37,8 @@ namespace Logic.Utils
             {
                 _isAlive = false;
                 _transaction.Dispose();
-                _dbContext.Dispose();                
+                _dbContext.Dispose();
             }
-
         }
 
         public void Add<TEntity>(TEntity entity)

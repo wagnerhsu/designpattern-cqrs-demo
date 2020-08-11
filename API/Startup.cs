@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using LaYumba.Functional;
 using Logic;
@@ -11,15 +7,12 @@ using Logic.Models;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using static LaYumba.Functional.F;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using static Logic.AppServices.AddAddressCommand;
 using static Logic.AppServices.CreateCustomerCommand;
 using static Logic.AppServices.DeleteCustomerCommand;
@@ -34,7 +27,8 @@ namespace API
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,7 +42,7 @@ namespace API
             var connectionString = new ConnectionString(
                 Configuration.GetConnectionString("ApplicationDbContext"));
             services.AddSingleton<ConnectionString>(connectionString);
-            services.AddSingleton<DbContextFactory>();           
+            services.AddSingleton<DbContextFactory>();
             services.AddSingleton<Messages>();
 
             //Handlers
@@ -70,7 +64,6 @@ namespace API
                 GetCustomerQueryHandler>();
             services.AddTransient<IQueryHandler<GetAllCustomerQuery, Task<Validation<IReadOnlyCollection<Customer>>>>,
                 GetAllCustomerQueryHandler>();
-
 
             services.AddCors(options =>
             {
