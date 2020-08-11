@@ -42,7 +42,7 @@ namespace Logic.Repositories
 
         public async Task<IReadOnlyCollection<Customer>> GetAll()
         {
-            return _unitOfWork.Query<Customer>().Include("Addresses").ToList();
+            return await _unitOfWork.Query<Customer>().Include("Addresses").ToListAsync();
         }
 
         
